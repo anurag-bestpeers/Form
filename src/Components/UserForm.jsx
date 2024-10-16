@@ -36,7 +36,7 @@ const UserForm = () => {
         <div>
           <label>Enter Your Phone</label>
           <input
-            type="text"
+            type="number"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
