@@ -9,78 +9,136 @@ const ValidateForm = () => {
     city: "",
   });
 
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const message = {};
+
+    if (data.name === "") {
+      message.name = "username is required";
+    }
+    if (data.email === "") {
+      message.email = "email is required";
+    }
+    if (data.phone === "") {
+      message.phone = "phone is required";
+    } else if (data.phone.length !== 10) {
+      message.phone = "Enter a valid number";
+    }
+    if (data.city === "") {
+      message.city = "city is required";
+    }
+    return message;
+  };
+
   const handleValidate = (e) => {
     e.preventDefault();
-    if (data.phone.length > 10) {
-      alert("Phone number should be less than 10");
-      return false;
-    } else if (data.phone.length !== 10) {
-      alert("please enter a valid number");
-      return false;
+
+    const formError = validate();
+
+    if (Object.keys(formError).length > 0) {
+      setErrors(formError);
+    } else {
+      alert(`
+            name : ${data.name}
+            email : ${data.email}
+            phone : ${data.phone}
+            city : ${data.city}
+            `);
     }
-    alert("submitted");
+  };
+
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    setData({
+      ...data,
+      [name]: value,
+    });
+
+    if (name == "name") {
+      setErrors({
+        ...errors,
+        [name]: "",
+      });
+    }
+    if (name == "email") {
+      setErrors({
+        ...errors,
+        [name]: "",
+      });
+    }
+    if (name == "phone") {
+      setErrors({
+        ...errors,
+        [name]: "",
+      });
+    }
+    if (name == "city") {
+      setErrors({
+        ...errors,
+        [name]: "",
+      });
+    }
   };
   return (
-    <div>
+    <>
       <h2>User Form</h2>
       <form className="container" onSubmit={handleValidate}>
         <div>
           <label>Enter Your Name</label>
           <input
             type="text"
-            value={data.value}
-            onChange={(e) =>
-              setData({
-                ...data,
-                name: e.target.value,
-              })
-            }
+            name="name"
+            value={data.name}
+            onChange={(e) => handleInput(e)}
           />
+          <p style={{ margin: "0px" }}>
+            {errors.name && <span>{errors.name}</span>}
+          </p>
         </div>
         <div>
           <label>Enter Your Email</label>
           <input
             type="text"
             value={data.email}
-            onChange={(e) =>
-              setData({
-                ...data,
-                email: e.target.value,
-              })
-            }
+            name="email"
+            onChange={(e) => handleInput(e)}
           />
+          <p style={{ margin: "0px" }}>
+            {errors.email && <span>{errors.email}</span>}
+          </p>
         </div>
         <div>
-          <label>Enter Your Phone</label>
-          <input
-            type="number"
-            value={data.phone}
-            onChange={(e) =>
-              setData({
-                ...data,
-                phone: e.target.value,
-              })
-            }
-          />
+          <div>
+            <label>Enter Your Phone</label>
+            <input
+              type="number"
+              value={data.phone}
+              name="phone"
+              onChange={(e) => handleInput(e)}
+            />
+            <p style={{ margin: "0px" }}>
+              {errors.phone && <span>{errors.phone}</span>}
+            </p>
+          </div>
         </div>
         <div>
           <label>Enter Your City</label>
           <input
             type="text"
+            name="city"
             value={data.city}
-            onChange={(e) =>
-              setData({
-                ...data,
-                city: e.target.value,
-              })
-            }
+            onChange={(e) => handleInput(e)}
           />
+          <p style={{ margin: "0px" }}>
+            {errors.city && <span>{errors.city}</span>}
+          </p>
         </div>
         <div>
           <button>submit</button>
         </div>
       </form>
-    </div>
+    </>
   );
 };
 
