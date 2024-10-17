@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import DIsplayForm from "./DIsplayForm";
 
 const ValidateForm = () => {
   const [data, setData] = useState({
@@ -10,23 +11,17 @@ const ValidateForm = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [showtable, setShowTable] = useState(false);
+  const [newData, setNewData] = useState([]);
 
   const validate = () => {
     const message = {};
+    const newData1 = ["name", "email", "phone", "city"];
 
-    if (data.name === "") {
-      message.name = "username is required";
-    }
-    if (data.email === "") {
-      message.email = "email is required";
-    }
-    if (data.phone === "") {
-      message.phone = "phone is required";
-    } else if (data.phone.length !== 10) {
-      message.phone = "Enter a valid number";
-    }
-    if (data.city === "") {
-      message.city = "city is required";
+    for (let element of newData1) {
+      if (data[element] == "") {
+        message[element] = `${element} is required`;
+      }
     }
     return message;
   };
@@ -39,47 +34,32 @@ const ValidateForm = () => {
     if (Object.keys(formError).length > 0) {
       setErrors(formError);
     } else {
-      alert(`
-            name : ${data.name}
-            email : ${data.email}
-            phone : ${data.phone}
-            city : ${data.city}
-            `);
+      setShowTable(true);
+      setNewData((prev) => [...prev, data]);
+      setData({
+        name: "",
+        email: "",
+        phone: "",
+        city: "",
+      });
     }
   };
 
   const handleInput = (e) => {
     const { name, value } = e.target;
+    let newValue = value.trim();
+
     setData({
       ...data,
-      [name]: value,
+      [name]: newValue,
     });
 
-    if (name == "name") {
-      setErrors({
-        ...errors,
-        [name]: "",
-      });
-    }
-    if (name == "email") {
-      setErrors({
-        ...errors,
-        [name]: "",
-      });
-    }
-    if (name == "phone") {
-      setErrors({
-        ...errors,
-        [name]: "",
-      });
-    }
-    if (name == "city") {
-      setErrors({
-        ...errors,
-        [name]: "",
-      });
-    }
+    setErrors((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
   };
+
   return (
     <>
       <h2>User Form</h2>
@@ -90,36 +70,32 @@ const ValidateForm = () => {
             type="text"
             name="name"
             value={data.name}
-            onChange={(e) => handleInput(e)}
+            onChange={handleInput}
           />
-          <p style={{ margin: "0px" }}>
-            {errors.name && <span>{errors.name}</span>}
-          </p>
+          <p style={{ margin: "0px" }}>{errors.name && errors.name}</p>
         </div>
         <div>
           <label>Enter Your Email</label>
           <input
-            type="text"
+            type="email"
             value={data.email}
             name="email"
-            onChange={(e) => handleInput(e)}
+            onChange={handleInput}
           />
-          <p style={{ margin: "0px" }}>
-            {errors.email && <span>{errors.email}</span>}
-          </p>
+          <p style={{ margin: "0px" }}>{errors.email && errors.email}</p>
         </div>
         <div>
           <div>
             <label>Enter Your Phone</label>
             <input
-              type="number"
+              minLength={10}
+              maxLength={10}
+              type="tel"
               value={data.phone}
               name="phone"
-              onChange={(e) => handleInput(e)}
+              onChange={handleInput}
             />
-            <p style={{ margin: "0px" }}>
-              {errors.phone && <span>{errors.phone}</span>}
-            </p>
+            <p style={{ margin: "0px" }}>{errors.phone && errors.phone}</p>
           </div>
         </div>
         <div>
@@ -128,16 +104,18 @@ const ValidateForm = () => {
             type="text"
             name="city"
             value={data.city}
-            onChange={(e) => handleInput(e)}
+            onChange={handleInput}
           />
-          <p style={{ margin: "0px" }}>
-            {errors.city && <span>{errors.city}</span>}
-          </p>
+          <p style={{ margin: "0px" }}>{errors.city && errors.city}</p>
         </div>
         <div>
           <button>submit</button>
         </div>
       </form>
+
+      <div className="table">
+        {showtable && <DIsplayForm newData={newData} />}
+      </div>
     </>
   );
 };
