@@ -49,19 +49,19 @@ h2 {
   margin: 0px;
   margin-top: 20px;
 }
-.table {
+.tableC {
   display: flex;
   justify-content: center;
   margin-top: 25px;
 }
-.table table {
+.tableC table {
   padding: 15px;
   border-radius: 12px;
   border-collapse: collapse;
 }
-.table table th,
+.tableC table th,
 td {
   padding: 10px;
   border-radius: 3px;
-  background: #cccccc;
+  background: #ffffff;
 }

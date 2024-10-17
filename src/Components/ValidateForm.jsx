@@ -1,8 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import DIsplayForm from "./DIsplayForm";
 
-const ValidateForm = () => {
+const ValidateForm = ({ setParentData, setShowTable }) => {
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -11,8 +10,7 @@ const ValidateForm = () => {
   });
 
   const [errors, setErrors] = useState({});
-  const [showtable, setShowTable] = useState(false);
-  const [newData, setNewData] = useState([]);
+  const [id, setId] = useState(0);
 
   const validate = () => {
     const message = {};
@@ -35,7 +33,7 @@ const ValidateForm = () => {
       setErrors(formError);
     } else {
       setShowTable(true);
-      setNewData((prev) => [...prev, data]);
+      setParentData((prev) => [...prev, data]);
       setData({
         name: "",
         email: "",
@@ -43,6 +41,8 @@ const ValidateForm = () => {
         city: "",
       });
     }
+
+    setId((prev) => prev + 1);
   };
 
   const handleInput = (e) => {
@@ -52,6 +52,7 @@ const ValidateForm = () => {
     setData({
       ...data,
       [name]: newValue,
+      id,
     });
 
     setErrors((prev) => ({
@@ -112,10 +113,6 @@ const ValidateForm = () => {
           <button>submit</button>
         </div>
       </form>
-
-      <div className="table">
-        {showtable && <DIsplayForm newData={newData} />}
-      </div>
     </>
   );
 };
