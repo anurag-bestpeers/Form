@@ -1,60 +1,56 @@
-import React from "react";
-import { useState } from "react";
-
-const ValidateForm = ({ setParentData, setShowTable }) => {
+import React, { useState, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+const ValidateForm = ({ onSubmit, editData }) => {
   const [data, setData] = useState({
-    name: "",
+    fname: "",
+    lname: "",
     email: "",
     phone: "",
     city: "",
+    gender: "select",
   });
-
   const [errors, setErrors] = useState({});
-  const [id, setId] = useState(0);
+
+  useEffect(() => {
+    if (editData) {
+      setData(editData);
+    }
+  }, [editData]);
 
   const validate = () => {
     const message = {};
-    const newData1 = ["name", "email", "phone", "city"];
+    const fields = ["fname", "lname", "email", "phone", "city"];
 
-    for (let element of newData1) {
-      if (data[element] == "") {
-        message[element] = `${element} is required`;
+    fields.forEach((field) => {
+      if (data[field] === "") {
+        message[field] = `${field} is required`;
       }
-    }
+    });
     return message;
   };
 
-  const handleValidate = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
     const formError = validate();
-
     if (Object.keys(formError).length > 0) {
       setErrors(formError);
+      toast.error("Please fill in all the required fields.");
     } else {
-      setShowTable(true);
-      setParentData((prev) => [...prev, data]);
-      setData({
-        name: "",
-        email: "",
-        phone: "",
-        city: "",
-      });
+      toast.success("Form submitted successfully!");
+      onSubmit(data);
+      setData({ fname: "", lname: "", email: "", phone: "", city: "",gender:"select" });
     }
-
-    setId((prev) => prev + 1);
   };
 
   const handleInput = (e) => {
     const { name, value } = e.target;
-    let newValue = value.trim();
+    // console.log(value);
 
     setData({
       ...data,
-      [name]: newValue,
-      id,
+      [name]: value,
     });
-
     setErrors((prev) => ({
       ...prev,
       [name]: "",
@@ -63,29 +59,41 @@ const ValidateForm = ({ setParentData, setShowTable }) => {
 
   return (
     <>
-      <h2>User Form</h2>
-      <form className="container" onSubmit={handleValidate}>
-        <div>
-          <label>Enter Your Name</label>
-          <input
-            type="text"
-            name="name"
-            value={data.name}
-            onChange={handleInput}
-          />
-          <p style={{ margin: "0px" }}>{errors.name && errors.name}</p>
+      <form className="container" onSubmit={handleSubmit}>
+        <div className="firstRow">
+          <div>
+            <label>FirstName</label>
+            <input
+              type="text"
+              name="fname"
+              value={data.fname}
+              onChange={handleInput}
+            />
+            <p style={{ margin: "0px" }}>{errors.fname && errors.fname}</p>
+          </div>
+          <div>
+            <label>LastName</label>
+            <input
+              type="text"
+              name="lname"
+              value={data.lname}
+              onChange={handleInput}
+            />
+            <p style={{ margin: "0px" }}>{errors.lname && errors.lname}</p>
+          </div>
+          <div>
+            <label>Enter Your Email</label>
+            <input
+              type="email"
+              value={data.email}
+              name="email"
+              onChange={handleInput}
+            />
+            <p style={{ margin: "0px" }}>{errors.email && errors.email}</p>
+          </div>
         </div>
-        <div>
-          <label>Enter Your Email</label>
-          <input
-            type="email"
-            value={data.email}
-            name="email"
-            onChange={handleInput}
-          />
-          <p style={{ margin: "0px" }}>{errors.email && errors.email}</p>
-        </div>
-        <div>
+
+        <div className="secondRow">
           <div>
             <label>Enter Your Phone</label>
             <input
@@ -98,21 +106,36 @@ const ValidateForm = ({ setParentData, setShowTable }) => {
             />
             <p style={{ margin: "0px" }}>{errors.phone && errors.phone}</p>
           </div>
+          <div>
+            <label>Enter Your City</label>
+            <input
+              type="text"
+              name="city"
+              value={data.city}
+              onChange={handleInput}
+            />
+            <p style={{ margin: "0px" }}>{errors.city && errors.city}</p>
+          </div>
+          <div>
+            <div className="select">
+              <label htmlFor="">Gender</label>
+              <select value={data.gender} name="gender" onChange={handleInput}>
+                <option selected disabled value="select">
+                  Select
+                </option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
         </div>
-        <div>
-          <label>Enter Your City</label>
-          <input
-            type="text"
-            name="city"
-            value={data.city}
-            onChange={handleInput}
-          />
-          <p style={{ margin: "0px" }}>{errors.city && errors.city}</p>
-        </div>
-        <div>
-          <button>submit</button>
+
+        <div className="btnRow">
+          <button type="submit">Add</button>
         </div>
       </form>
+      <hr className="division" />
     </>
   );
 };

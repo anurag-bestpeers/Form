@@ -1,0 +1,11 @@
+/* input {
+  height: 26px;
+  padding-left: 6px;
+  font-size: 17px;
+  border: none;
+  outline :1px solid #0000003d
+}
+input:focus {
+  outline: none;
+  border: 2px solid rgb(122, 199, 122);
+} */
