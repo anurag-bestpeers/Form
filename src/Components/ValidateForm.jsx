@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const ValidateForm = ({ onSubmit, editData }) => {
+const ValidateForm = ({ onSubmit, editData,Capitalize }) => {
   const [data, setData] = useState({
     fname: "",
     lname: "",
@@ -39,7 +39,9 @@ const ValidateForm = ({ onSubmit, editData }) => {
     } else {
       toast.success("Form submitted successfully!");
       onSubmit(data);
+      
       setData({ fname: "", lname: "", email: "", phone: "", city: "",gender:"select" });
+      Capitalize()
     }
   };
 
@@ -82,7 +84,7 @@ const ValidateForm = ({ onSubmit, editData }) => {
             <p style={{ margin: "0px" }}>{errors.lname && errors.lname}</p>
           </div>
           <div>
-            <label>Enter Your Email</label>
+            <label> Email</label>
             <input
               type="email"
               value={data.email}
@@ -95,7 +97,7 @@ const ValidateForm = ({ onSubmit, editData }) => {
 
         <div className="secondRow">
           <div>
-            <label>Enter Your Phone</label>
+            <label>Phone</label>
             <input
               minLength={10}
               maxLength={10}
@@ -107,7 +109,7 @@ const ValidateForm = ({ onSubmit, editData }) => {
             <p style={{ margin: "0px" }}>{errors.phone && errors.phone}</p>
           </div>
           <div>
-            <label>Enter Your City</label>
+            <label>City</label>
             <input
               type="text"
               name="city"

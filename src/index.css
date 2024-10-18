@@ -131,7 +131,7 @@ button:hover {
   border-collapse: collapse;
   background: rgba(255, 255, 255, 0.95);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(248, 251, 248, 0.3);;
+  border: 1px solid rgba(248, 251, 248, 0.3);
 }
 
 .tableC table th,
