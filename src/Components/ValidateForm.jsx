@@ -41,17 +41,18 @@ const ValidateForm = ({ onSubmit, editData,Capitalize }) => {
       onSubmit(data);
       
       setData({ fname: "", lname: "", email: "", phone: "", city: "",gender:"select" });
-      Capitalize()
+      // Capitalize()
     }
   };
 
   const handleInput = (e) => {
     const { name, value } = e.target;
     // console.log(value);
+    let val=value.trim()
 
     setData({
       ...data,
-      [name]: value,
+      [name]: val,
     });
     setErrors((prev) => ({
       ...prev,
