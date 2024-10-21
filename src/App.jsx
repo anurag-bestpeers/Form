@@ -15,10 +15,12 @@ const App = () => {
     setShowTable(false);
   };
   const handleDelete = (index) => {
-    let newData = parentData.filter((_, ind) => ind !== index);
+    const newData = parentData.filter((_, ind) => ind !== index);
     setParentData(newData);
-    toast.error("data deleted");
-    setShowTable(false);
+    toast.error("Data deleted");
+    if (newData.length === 0) {
+      setShowTable(false);
+    }
   };
 
   const Capitalize = (name) => {
@@ -39,11 +41,17 @@ const App = () => {
     return str;
   };
 
-
   const handleSubmit = (newData) => {
     if (editIndex > -1) {
       const updatedData = [...parentData];
-      updatedData[editIndex] = newData;
+      let newFname = Capitalize(newData.fname);
+      let newLname = Capitalize(newData.lname);
+      let obj = {
+        ...newData,
+        fname: newFname,
+        lname: newLname,
+      };
+      updatedData[editIndex] = obj;
       setParentData(updatedData);
       setEditIndex(-1);
     } else {
