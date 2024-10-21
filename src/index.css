@@ -220,3 +220,18 @@ select option {
   background-color: #f1f1f1;
   cursor: pointer;
 }
+.sort-icons {
+  display: inline-flex;
+  flex-direction: column;
+  margin-left: 5px;
+}
+
+.sort-icons svg {
+  font-size: 12px;
+  color: #ccc; /* Default color for inactive arrows */
+  cursor: pointer;
+}
+
+.sort-icons svg.active {
+  color: #000; /* Color for active arrow */
+}

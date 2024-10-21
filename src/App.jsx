@@ -48,43 +48,26 @@ const App = () => {
   };
 
   const Capitalize = (name) => {
-    let count = 0;
-    let str = "";
-    for (let i = 0; i < name.length; i++) {
-      if (name[i] !== "" && count == 0) {
-        let data = name[i].toUpperCase();
-        str += data;
-
-        count++;
-      } else if (name[i] == "") {
-        count = 0;
-      } else {
-        str += name[i];
-      }
-    }
-    return str;
+    return name.charAt(0).toUpperCase() + name.slice(1);
   };
+  
 
   const handleSubmit = (newData) => {
     if (editIndex > -1) {
       const updatedData = [...parentData];
-      let newFname = Capitalize(newData.fname);
-      let newLname = Capitalize(newData.lname);
       let obj = {
         ...newData,
-        fname: newFname,
-        lname: newLname,
+        fname: Capitalize(newData.fname),
+        lname: Capitalize(newData.lname),
       };
       updatedData[editIndex] = obj;
       setParentData(updatedData);
       setEditIndex(-1);
     } else {
-      let newFname = Capitalize(newData.fname);
-      let newLname = Capitalize(newData.lname);
       let obj = {
         ...newData,
-        fname: newFname,
-        lname: newLname,
+        fname: Capitalize(newData.fname),
+        lname: Capitalize(newData.lname),
       };
 
       setParentData((prev) => [...prev, obj]);
