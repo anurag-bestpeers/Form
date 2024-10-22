@@ -211,14 +211,11 @@ const App = () => {
     const newData = parentData.filter((_, ind) => ind !== index);
     setParentData(newData);
     toast.error("Data deleted");
-    if (newData.length === 0) {
-    }
   };
 
   const Capitalize = (name) => {
     return name.charAt(0).toUpperCase() + name.slice(1);
   };
-  
 
   const handleSubmit = (newData) => {
     if (editIndex > -1) {

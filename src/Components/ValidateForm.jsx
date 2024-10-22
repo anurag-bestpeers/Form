@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const ValidateForm = ({ onSubmit, editData,Capitalize }) => {
+const ValidateForm = ({ onSubmit, editData }) => {
   const [data, setData] = useState({
     fname: "",
     lname: "",
