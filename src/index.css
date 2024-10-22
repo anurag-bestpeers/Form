@@ -228,10 +228,22 @@ select option {
 
 .sort-icons svg {
   font-size: 12px;
-  color: #ccc; /* Default color for inactive arrows */
+  color: #ccc;
   cursor: pointer;
 }
 
 .sort-icons svg.active {
-  color: #000; /* Color for active arrow */
+  color: #000;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.pagination button {
+  width: 50px;
+}
+.pagination button .svg {
+  width: 24px;
+  height: 24px;
 }
