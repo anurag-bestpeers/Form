@@ -4,25 +4,28 @@ import { BsPencilSquare } from "react-icons/bs";
 import { AiOutlineArrowUp, AiOutlineArrowDown } from "react-icons/ai";
 import { GrPrevious } from "react-icons/gr";
 import { GrNext } from "react-icons/gr";
+
 const DisplayForm = ({
   parentData,
   handleEdit,
   handleDelete,
   searchValue,
   setSearchValue,
+  setParentData,
 }) => {
-  const [copiedData, setCopiedData] = useState(parentData);
+  const [copiedData, setCopiedData] = useState([]);
   const [sortField, setSortField] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
   const [pageSkip, setPageSkip] = useState(0);
   const pageSize = 5;
 
   useEffect(() => {
-    const SearchedData = parentData.filter((item) => {
+    const searchedData = parentData.filter((item) => {
       const fullName = `${item.fname.toLowerCase()} ${item.lname.toLowerCase()}`;
       return fullName.includes(searchValue.toLowerCase());
     });
-    setCopiedData(SearchedData);
+
+    setCopiedData(searchedData);
     setPageSkip(0);
   }, [parentData, searchValue]);
 
@@ -37,8 +40,8 @@ const DisplayForm = ({
         return fieldA < fieldB ? 1 : -1;
       }
     });
-
-    setCopiedData(sortedData);
+    setParentData(sortedData);
+    setCopiedData(parentData);
     setSortField(field);
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
@@ -72,7 +75,7 @@ const DisplayForm = ({
             <thead>
               <tr>
                 <th onClick={() => handleSort("fname")}>
-                  FullName{" "}
+                  Full Name
                   <span className="sort-icons">
                     <AiOutlineArrowUp
                       className={
@@ -181,7 +184,7 @@ const DisplayForm = ({
                     <td>{item.email}</td>
                     <td>{item.phone}</td>
                     <td>{item.city}</td>
-                    <td>{item.gender ? item.gender : "Null"}</td>
+                    <td>{item.gender === "select" ? "null" : item.gender}</td>
                     <td className="btn-div">
                       <button
                         className="actionsBtn"
@@ -191,7 +194,9 @@ const DisplayForm = ({
                       </button>
                       <button
                         className="actionsBtn"
-                        onClick={() => handleDelete(index)}
+                        onClick={() => {
+                          handleDelete(index);
+                        }}
                       >
                         <MdOutlineDelete />
                       </button>

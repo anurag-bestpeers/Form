@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 const ValidateForm = ({ onSubmit, editData }) => {
   const [data, setData] = useState({
     fname: "",
@@ -14,7 +15,18 @@ const ValidateForm = ({ onSubmit, editData }) => {
 
   useEffect(() => {
     if (editData) {
-      setData(editData);
+      setData({
+        ...editData,
+      });
+    } else {
+      setData({
+        fname: "",
+        lname: "",
+        email: "",
+        phone: "",
+        city: "",
+        gender: "", 
+      });
     }
   }, [editData]);
 
@@ -27,6 +39,10 @@ const ValidateForm = ({ onSubmit, editData }) => {
         message[field] = `${field} is required`;
       }
     });
+    // if (data.gender === "select") {
+    //   message.gender = "Gender is required";
+    // }
+
     return message;
   };
 
@@ -39,16 +55,23 @@ const ValidateForm = ({ onSubmit, editData }) => {
     } else {
       toast.success("Form submitted successfully!");
       onSubmit(data);
-      
-      setData({ fname: "", lname: "", email: "", phone: "", city: "",gender:"select" });
-      // Capitalize()
+
+      if (!editData) {
+        setData({
+          fname: "",
+          lname: "",
+          email: "",
+          phone: "",
+          city: "",
+          gender: "select",
+        });
+      }
     }
   };
 
   const handleInput = (e) => {
     const { name, value } = e.target;
-    // console.log(value);
-    let val=value.trim()
+    const val = value.trim();
 
     setData({
       ...data,
@@ -85,7 +108,7 @@ const ValidateForm = ({ onSubmit, editData }) => {
             <p style={{ margin: "0px" }}>{errors.lname && errors.lname}</p>
           </div>
           <div>
-            <label> Email</label>
+            <label>Email</label>
             <input
               type="email"
               value={data.email}
@@ -122,20 +145,21 @@ const ValidateForm = ({ onSubmit, editData }) => {
           <div>
             <div className="select">
               <label htmlFor="">Gender</label>
-              <select value={data.gender} name="gender" onChange={handleInput}>
-                <option selected disabled value="select">
+              <select value={data.gender}  name="gender" onChange={handleInput}>
+                <option value='select'>
                   Select
                 </option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
               </select>
+              <p style={{ margin: "0px" }}>{errors.gender && errors.gender}</p>
             </div>
           </div>
         </div>
 
         <div className="btnRow">
-          <button type="submit">Add</button>
+          <button type="submit">{editData ? "Update" : "Add"}</button>
         </div>
       </form>
       <hr className="division" />
